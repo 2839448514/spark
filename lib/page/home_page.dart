@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../utils/ai_api.dart';
+
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => new _HomePageState();
@@ -44,6 +46,12 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       'icon': Icons.settings,
       'color': Colors.grey,
       'message': '个性化您的设置'
+    },
+    {
+      'title': '测试按钮',
+      'icon': Icons.check_circle,
+      'color': Colors.teal,
+      'message': '测试'
     },
   ];
 
@@ -150,16 +158,33 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       child: InkWell(
         borderRadius: BorderRadius.circular(16),
         onTap: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(item['message']),
-              backgroundColor: item['color'],
-              behavior: SnackBarBehavior.floating,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-          );
+          switch (index) {
+            case 0: // 拍照解答
+            // 处理拍照解答逻辑
+              break;
+            case 1: // 文字解答
+            // 处理文字解答逻辑
+              break;
+            case 2: // 笔记复习
+            // 处理笔记复习逻辑
+              break;
+            case 3: // 历史记录
+            // 处理历史记录逻辑
+              break;
+            case 4: // 我的收藏
+            // 处理收藏逻辑
+              break;
+            case 5: // 设置
+            // 处理设置逻辑
+              break;
+            case 6: // 测试按钮
+              AIApi.get_ai_request("你好，测试按钮功能").then((response) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(response)),
+                );
+              });
+              break;
+          }
         },
         child: Container(
           decoration: BoxDecoration(
