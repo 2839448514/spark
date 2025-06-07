@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:spark/utils/ai_api.dart';
 import 'package:spark/utils/NoteDatabase.dart';
 import 'package:spark/page/note_view_page.dart';
+import 'package:provider/provider.dart';
+import 'package:spark/provider/config.dart';
 import 'dart:async';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
@@ -118,10 +120,11 @@ $userQuestion
 
     try {
       final notesPrompt = _buildNotesPrompt(_question, _answer);
+      final cfg = Provider.of<Config>(context, listen: false);
       print('笔记生成提示词: $notesPrompt'); // 调试信息
 
       _notesSubscription?.cancel();
-      _notesSubscription = AIApi.get_ai_stream_request(notesPrompt).listen(
+      _notesSubscription = AIApi.get_ai_stream_request(notesPrompt, cfg).listen(
         (chunk) {
           print('收到笔记数据块: "$chunk"'); // 调试信息
           setState(() {
@@ -250,10 +253,11 @@ $userQuestion
 
     try {
       final optimizedPrompt = _buildOptimizedPrompt(question);
+      final cfg = Provider.of<Config>(context, listen: false);
 
       _answerSubscription?.cancel();
       _answerSubscription = AIApi.get_ai_stream_request_with_reasoning(
-        optimizedPrompt,
+        optimizedPrompt, cfg,
       ).listen(
         (chunk) {
           print('收到数据块: $chunk'); // 调试信息

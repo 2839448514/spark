@@ -6,17 +6,13 @@ import 'dart:convert';
 import 'dart:async';
 
 class AIApi {
-  final Config config;
-  AIApi(BuildContext context)
-    : config = Provider.of<Config>(context, listen: false);
-    
   // 普通请求方法（保持向后兼容）
-  static Future<dynamic> get_ai_request(String prompt) async {
-    var url = Uri.parse(Config.url);
+  static Future<dynamic> get_ai_request(String prompt, Config config) async {
+    var url = Uri.parse(config.url);
 
     var headers = {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ${Config.api_key}',
+      'Authorization': 'Bearer ${config.api_key}',
     };
 
     var body = jsonEncode({
@@ -45,12 +41,12 @@ class AIApi {
     }
   }
     // 流式输出方法 - 返回包含内容类型的数据
-  static Stream<Map<String, String>> get_ai_stream_request_with_reasoning(String prompt) async* {
-    var url = Uri.parse(Config.url);
+  static Stream<Map<String, String>> get_ai_stream_request_with_reasoning(String prompt, Config config) async* {
+    var url = Uri.parse(config.url);
 
     var headers = {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ${Config.api_key}',
+      'Authorization': 'Bearer ${config.api_key}',
     };
 
     var body = jsonEncode({
@@ -112,12 +108,12 @@ class AIApi {
   }
 
   // 流式输出方法（保持向后兼容）
-  static Stream<String> get_ai_stream_request(String prompt) async* {
-    var url = Uri.parse(Config.url);
+  static Stream<String> get_ai_stream_request(String prompt, Config config) async* {
+    var url = Uri.parse(config.url);
 
     var headers = {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ${Config.api_key}',
+      'Authorization': 'Bearer ${config.api_key}',
     };
 
     var body = jsonEncode({

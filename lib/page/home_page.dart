@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../routers/router.dart';
 import '../utils/ai_api.dart';
+import 'package:spark/provider/config.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -179,12 +181,14 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             // 处理设置逻辑
               break;
             case 6: // 测试按钮
-              AIApi.get_ai_request("你好，测试按钮功能").then((response) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(response)),
-                );
-              });
-              break;
+              // 获取配置并调用 AI 请求
+              final cfg = Provider.of<Config>(context, listen: false);
+              AIApi.get_ai_request("你好，测试按钮功能", cfg).then((response) {
+                 ScaffoldMessenger.of(context).showSnackBar(
+                   SnackBar(content: Text(response)),
+                 );
+               });
+               break;
           }
         },
         child: Container(
