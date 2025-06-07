@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../routers/router.dart';
 import '../utils/ai_api.dart';
 
 class HomePage extends StatefulWidget {
@@ -163,7 +164,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             // 处理拍照解答逻辑
               break;
             case 1: // 文字解答
-            // 处理文字解答逻辑
+              Navigator.pushNamed(context, RoutersPath.textsolve);
               break;
             case 2: // 笔记复习
             // 处理笔记复习逻辑

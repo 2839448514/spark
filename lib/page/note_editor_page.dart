@@ -100,142 +100,117 @@ class _NoteEditorPageState extends State<NoteEditorPage> {
               ),
             ),
           ),
-        ],
-      ),      body: Column(
-        children: [
-          // 标题输入框
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border(
-                bottom: BorderSide(color: Colors.grey[200]!),
-              ),
-            ),
-            child: TextField(
-              controller: _titleController,
-              decoration: InputDecoration(
-                hintText: '请输入标题...',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide.none,
+        ],      ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            // 标题输入框
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border(
+                  bottom: BorderSide(color: Colors.grey[200]!),
                 ),
-                filled: true,
-                fillColor: Colors.grey[50],
-                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               ),
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-
-          // 分类选择器
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border(
-                bottom: BorderSide(color: Colors.grey[200]!),
-              ),
-            ),
-            child: Row(
-              children: [
-                Icon(Icons.folder, color: Colors.grey[600], size: 20),
-                SizedBox(width: 8),
-                Text(
-                  '分类:',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey[700],
-                    fontWeight: FontWeight.w500,
+              child: TextField(
+                controller: _titleController,
+                decoration: InputDecoration(
+                  hintText: '请输入标题...',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide.none,
                   ),
+                  filled: true,
+                  fillColor: Colors.grey[50],
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 ),
-                SizedBox(width: 8),
-                Expanded(
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButton<int?>(
-                      value: _selectedCategoryId,
-                      hint: Text('选择分类', style: TextStyle(color: Colors.grey[500])),
-                      isExpanded: true,
-                      onChanged: (int? newValue) {
-                        setState(() {
-                          _selectedCategoryId = newValue;
-                        });
-                      },
-                      items: [
-                        DropdownMenuItem<int?>(
-                          value: null,
-                          child: Text('未分类', style: TextStyle(color: Colors.grey[600])),
-                        ),
-                        ..._categories.map<DropdownMenuItem<int?>>((Category category) {
-                          return DropdownMenuItem<int?>(
-                            value: category.id,
-                            child: Text(category.name),
-                          );
-                        }).toList(),
-                      ],
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+
+            // 分类选择器
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border(
+                  bottom: BorderSide(color: Colors.grey[200]!),
+                ),
+              ),
+              child: Row(
+                children: [
+                  Icon(Icons.folder, color: Colors.grey[600], size: 20),
+                  SizedBox(width: 8),
+                  Text(
+                    '分类:',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey[700],
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
+                  SizedBox(width: 8),
+                  Expanded(
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton<int?>(
+                        value: _selectedCategoryId,
+                        hint: Text('选择分类', style: TextStyle(color: Colors.grey[500])),
+                        isExpanded: true,
+                        onChanged: (int? newValue) {
+                          setState(() {
+                            _selectedCategoryId = newValue;
+                          });
+                        },
+                        items: [
+                          DropdownMenuItem<int?>(
+                            value: null,
+                            child: Text('未分类', style: TextStyle(color: Colors.grey[600])),
+                          ),
+                          ..._categories.map<DropdownMenuItem<int?>>((Category category) {
+                            return DropdownMenuItem<int?>(
+                              value: category.id,
+                              child: Text(category.name),
+                            );
+                          }).toList(),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            
+            // 工具栏
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border(
+                  bottom: BorderSide(color: Colors.grey[200]!),
                 ),
-              ],
-            ),
-          ),
-          
-          // 工具栏
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border(
-                bottom: BorderSide(color: Colors.grey[200]!),
               ),
-            ),
-            child: QuillSimpleToolbar(
-              controller: _controller,
-              configurations: QuillSimpleToolbarConfigurations(
-                showBoldButton: true,
-                showItalicButton: true,
-                showUnderLineButton: true,
-                showStrikeThrough: true,
-                showColorButton: true,
-                showBackgroundColorButton: true,
-                showListNumbers: true,
-                showListBullets: true,
-                showListCheck: false,
-                showCodeBlock: false,
-                showQuote: true,
-                showIndent: true,
-                showLink: false,
-                showUndo: true,
-                showRedo: true,
-                showDirection: false,
-                showSearchButton: false,
-                multiRowsDisplay: false,
-              ),
-            ),
-          ),
-          
-          // 编辑器区域
-          Expanded(
-            child: Container(
-              color: Colors.white,
-              padding: const EdgeInsets.all(16),
-              child: QuillEditor.basic(
+              child: QuillSimpleToolbar(
                 controller: _controller,
-                focusNode: _editorFocusNode,
-                scrollController: _scrollController,
-                configurations: QuillEditorConfigurations(
-                  placeholder: '开始书写您的想法...',
-                  padding: EdgeInsets.zero,
-                  autoFocus: false,
-                  expands: false,
-                  scrollable: true,
+              ),
+            ),
+            
+            // 编辑器区域
+            Expanded(
+              child: Container(
+                color: Colors.white,
+                padding: const EdgeInsets.all(16),
+                child: QuillEditor.basic(
+                  controller: _controller,
+                  focusNode: _editorFocusNode,
+                  scrollController: _scrollController,
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
